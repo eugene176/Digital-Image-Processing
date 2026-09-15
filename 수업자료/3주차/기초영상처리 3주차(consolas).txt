@@ -1,0 +1,138 @@
+기초영상처리 3주차(consolas)
+다음 주 휴강
+
+코딩은 짜피 숫자만 바뀌는데 그걸 알기가 쉽지 않음
+그래서 창을 띄워서 그림으로 표현
+
+윈도우 창의 이름은 곧 변수이름(다른 창은 X 오직 윈도우만)
+
+
+함수
+cv2.imshow(창의 이름,배열주소값)
+ㄴ이미지 띄움(그 순간만 변화가 적용된 이미지는 다시 한번 더 이 명령어가 작동해야 됌)
+
+cv2.destoryWindow(창이름)<- 하나만 끄는 거 
+cv2.destoryallWindow() <- 다 끄는거라 인수X
+
+cv2.moveWindow(창이름,x좌표,y좌표)<-창을 움직임
+
+cv2.resizeWindoow<-윈도우 크기 조정
+
+cv2.namedWindow(창이름,cv2.WINDOW_AUTOSIZE)
+				ㄴ크기변경 불가
+				ㄴㄴ얘를 resize하면 사진은 그대로 창은 resize에 맞춤
+
+cv2.namedWindow(창이름,cv2.WINDOW_NORMAL)
+
+				ㄴ크기 변경 가능
+np함수는 (y축,x축)
+cv2 함수는(x축,y축)
+ㄴy축 방향은 내려가는 게 양수 방향
+
+이벤트 = 하드웨어 장치가 발생시키는 이벤트 + 사용자가 정의한 이벤트
+
+
+이벤트처리 함수 = 콜백 함수 사용
+키보드 이벤트,마우스 이벤트,트랙바 이벤트
+
+np.float = 1로 다 채워라
+
+키보드
+cv2.waitKey(n ms) <- 인수가 ms로 인식
+인수가 0 이하면 무한대기
+1 이상이면 지연시간동안 키 입력 대기. 입력 안하면 -1 반환
+
+cv2.waitKeyEx([,시간])
+
+키보드의 입력 값을 저장할 땐 아스피? 코드로 저장
+ex) esc = 27 A= 65 등등
+
+ord('문자') = 문자와 매칭되는 아스피코드 숫자를 의미
+ㄴswitch-case랑 같이 활용
+
+마우스
+기본으로 필요한 함수 2개
+cv2 setMouseCallback(windowName, onMouse, param=None)
+windowName = 적용시킬 마우스 창이름을 적어라
+onMouse = 마우스 클릭될 시 이 이벤트를 시행해라
+onMouse(event,x,y,flags,param = None)
+ㄴx = 클릭된 좌표 x를 구해라
+ㄴy= 클릭된 좌표 y를 구하라
+ㄴevent = 어떤 마우스 버튼을 눌렀냐?(휠/왼쪽/오른쪽 등등 반환 값은 대칭되는 숫자로))
+ㄴflag = 마우스랑 같이 누른 키가 있냐?(반환 값은 대칭되는 숫자로)
+
+
+EVENT-RBUTTONDOWN :손가락을 누를 떄
+
+EVENT-RBUTTONUP : 손가락을 땔 떄
+ㄴ따로 만든 이유는 드래그를 위해서
+
+
+트랙바:스크롤바,슬라이더 바
+cv2.createTrackbar(trackbaname, windowname,value,count, onChange);)
+ㄴtracbaname = 트랙바 이름(변수명처럼 사용)
+ㄴwindowname = 적용시킬 윈도우 창이름
+ㄴvalue = 슬라이더 위치 지정
+ㄴcount = 최대값 지정(이미지는 대부분 255)
+ㄴonChange = 트랙바의 값이 변경될 떄 시행
+
+cv2.setTrackbarPos(bar_name,title,image[0][0])
+ㄴ트랙바 위치 조정
+
+선 그리기
+8way = 대각선까지 포함해서 8방향으로 움직임(이게 디폴트임)
+4way = 동서남북으로만 움직임
+
+선 그리기 함수
+(cv2.line.ing,pt1,pt2,color,thickness,lineType))
+ㄴ이미지(배열),시작점,끝점,선 색,선 굵기,8way,4way 중 뭘로 할래?
+
+cv2.arrowedLine(위의 함수와 다 동일,tipLength만 추가)
+ㄴ화살표 선 그리기
+ㄴㄴtipLength
+
+사각형 그리기
+1. cv2.rectangle(다 동일,shift =None)
+ㄴshift = 좌표 선등을 소수점까지 할꺼냐 안할꺼냐
+
+2. cv2.rectangle(img,rec,shift까지 나머진 동일)
+ㄴrec <- (x,y,w,h) = x축 y축 x축 종착지 y축 종착지
+
+추가인수 = cv2.filled(사각형 내부를 채워라) <-이건 옵션임
+
+
+글자(색상 암기 X)
+putText(배열,표시 문자열,시작 지점,폰트,확대(크기),색상);
+
+
+ex)putText(image,"DUPLEX",pt1,FONT_HERSHEY,2,Scalar(128,128,0));
+
+global 붙은 변수는 전역변수 느낌.
+
+
+동그라미 그리는 법 
+cv2.circle(배열,원의 중심좌표,반지름,색깔)
+
+
+타원
+cv2.elipse(도화지,원의 중심 좌표 ,x-y축 반지름,타원의각도,타원을 그릴 건데 그걸 어디서부터 그릴건가,어디까지 그릴건가)
+ㄴ타원의 각도(3시 방향이 0도로 시계방향으로 회전)
+
+ex)cv2.elipse(img,center,axes,angle,startangle,endangle,color,thickness,linetype)
+ㄴstart angle,end angle = 타원이 0도 회전한 상태에서 계산 그리고 각도만큼 회전한 타원에 적용
+
+영상 파일 처리
+cv2.imread(이미지이름,flags)
+ㄴ색깔 타입 결정
+
+cv2.imwrite(파일이름,img[,params])
+ㄴ이미지 행렬을 영상 파일로 저장
+
+배열을 생성할 떄 2차원은 = 흑백(밝기 화소만 저장하면 됌)
+3차원은 컬러(RGB로 총 3개의 값을 저장해야 됌)
+
+3차원 생성 np.zeros(300,400,3)
+2차원 생성 np.zeros(300,400)
+
+cv2.IMREAD_GRAYSCALE <-무조건 흑백으로 변환 후 반환
+cv2.IMREAD_COLOR <- 무조건 컬러로 변환 후 반환
