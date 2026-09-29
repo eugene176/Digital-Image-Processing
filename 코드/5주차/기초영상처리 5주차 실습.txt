@@ -1,0 +1,39 @@
+import numpy as np
+import cv2
+
+
+# def my_Line(img,p1,p2):
+#     for x in range(p1[0],p2[0]+1,1):
+#         # 기울기가 극한일 떄 그냥 선을 그어라
+#         a = (p2[1]-p1[1])/(p2[0] -p1[0])
+#         b = p1[1] - a*p1[0]
+#         #a가 1보다 크면 반복문을 y축 기준으로
+#         y = a*x+b
+#         img[int(y),x] = 255
+#         #a가 1보다 작으면 반복문을 x축 기준으로
+
+
+
+
+def My_Circle(img,p1,rad):
+    for x in range(p1[0]-rad,p1[0]+rad+1,1):
+        y1 = p1[1] + (rad**2 - (x-p1[1])**2) **0.5
+        y2 = p1[1] - (rad**2 - (x-p1[1])**2) **0.5
+        img[int(y1),x] = 255
+        img[int(y2),x] = 255
+        #아예 y를 기준으로
+    # for x in range(p1[0]-rad,p1[0]+rad+1,1):
+    #     y1 = p1[1] + (rad**2 - (x-p1[1])**2) **0.5
+    #     y2 = p1[1] - (rad**2 - (x-p1[1])**2) **0.5
+    #     img[int(y1),x] = 255
+    #     img[int(y2),x] = 255
+
+
+
+
+image1 = np.zeros((500,500), np.uint8)
+My_Circle(image1,(100,100),5)
+#my_Line(image1,(20,20),(20,300))#40이 x임
+cv2.imshow("line",image1)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

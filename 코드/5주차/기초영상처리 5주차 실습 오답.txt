@@ -1,0 +1,26 @@
+import numpy as np
+import cv2
+
+
+def my_Line(img,p1,p2):
+    dex,dey = p2[1] - p1[1],p2[0] - p1[0]
+    for i in range(p2[0]):
+        y= dey/dex(i-p1[1])+p1[0]
+        image1[y,i] = 255
+
+
+
+
+#def My_Circle(img,p1,rad):
+
+
+
+
+
+
+image1 = np.zeros((500,500), np.uint8)
+
+my_Line(image1,(20,20),(100,40))#40이 x임
+cv2.imshow("line",image1)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
