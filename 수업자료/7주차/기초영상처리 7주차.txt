@@ -42,7 +42,7 @@ blurring
 Averaging Blurring,Gauusian Blurring,Bilateral Filtering 등등
 
 average 방법
-몇개를 묶어서 하나의 그룹으로 만들고 그 그룹의 평균을 구함
+몇개를 묶어서 하나의 그룹으로 만들고 그 그룹의 평균을 구함 + 그 평균을 중앙에 속한 놈 값만 변경
 ㄴex) 9개 묶고 9개 더하고 9로 나눠서 평균을 구함 기준이 본인임 본인 기준으로 좌우상하 1칸씩/2칸씩 정할 수 있음
 
 4.3.5
