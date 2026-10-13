@@ -1,0 +1,17 @@
+import numpy as np,cv2
+
+image = cv2.imread("D:/images/color.jpg",cv2.IMREAD_COLOR)
+image_temp = image
+image_blur = cv2.blur(image,(3,3))#(5,5)가 보기 편함
+
+#여기다가 반복문을 이용해서 모든 점에 대해서 평균을 계산한 결과를 image_temp에 저장
+for y in range(image.shape[0]):
+    for x in range(image.shape[1]):
+        image_temp[y,x] = image[y-1:y+2,x-1:x+2].sum(axis=(0,1))/9
+
+
+
+cv2.imshow("blur",image_temp)
+cv2.imshow("blur2",image_blur)
+
+cv2.waitKey()

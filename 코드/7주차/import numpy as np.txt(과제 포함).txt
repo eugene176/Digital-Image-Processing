@@ -1,0 +1,35 @@
+import numpy as np
+import cv2
+
+
+def onMouse(event, x,y,flags,param):
+    global title,ptl,ptr
+
+    if event == cv2.EVENT_LBUTTONDOWN:
+        if ptl[0] < -1 : ptl = (x,y)
+        else :
+            cv2.rectangle(image,ptl,(x,y),(255,0,0), 2)
+            cv2.imshow(title,image)
+            ptl = (-1,-1)
+
+    elif event == cv2.EVENT_RBUTTONDOWN:
+        if ptr[0] < 0: ptr = (x,y)
+
+        else:
+            dx, dy = ptr[0] -x,ptr[1] - y
+            radius = int(np.sqrt(dx*dx + dy*dy))
+            cv2.circle(image,ptr,radius,(0,0,255),2)
+            cv2.imshow(title,image)
+            ptr = (-1,-1)
+
+image = np.full((300,500,3),(255,255,255),np.uint8)
+
+
+
+ptr = (-1,-1)
+ptl = (-1,-1)#초기화된 상태로 만들기 위해 생성
+title = "Draw Event"
+cv2.imshow(title,image)
+cv2.setMouseCallback(title,onMouse)
+cv2.waitKey(0)
+
