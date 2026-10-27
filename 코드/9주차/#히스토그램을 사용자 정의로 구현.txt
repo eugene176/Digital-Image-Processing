@@ -1,0 +1,56 @@
+#히스토그램을 사용자 정의로 구현
+import numpy as np, cv2
+
+def calc_histo(image, hsize, ranges=[0, 256]):  # 행렬 원소의 1차원 히스토그램 계산
+    hist = np.zeros((hsize, 1), np.float32)  # 히스토그램 누적 행렬
+    gap = ranges[1] / hsize  # 계급 간격 = 이놈이 구간을 나누는 수를 결정함
+
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            idx = int(image[i,j]//16)
+            hist[idx] = hist[idx]+1#해당 숫자 인덱스 = 값을 의미 그 값이 얼마나 있냐를 뜻함
+
+    return hist
+
+image = cv2.imread("C:/Users/user/Desktop/pixel.jpg", cv2.IMREAD_GRAYSCALE)  # 영상 읽기
+if image is None: raise Exception("영상 파일 읽기 오류 발생")
+
+hsize, ranges = [16], [0, 256]  # 히스토그램 간격수, 값 범위,# User 함수 0~255까지를 16을 기준으로 구간을 나눔 0~16 = 1,17~32 = 2, ~~~
+hist = calc_histo(image, hsize[0], ranges)  # 사용자 정의 히스토그램 계산
+
+print("사용자 정의 함수: \n", hist.flatten())  # 행렬을 벡터로 변환하여 출력
+cv2.imshow("image", image)
+cv2.waitKey(0)
+
+
+-------------------------------------------------------------------------------------
+#히스토그램 그래프 그리기
+import numpy as np, cv2
+
+
+def draw_histo(hist, shape=(200, 256)):
+    hist_img = np.full(shape, 255, np.uint8)
+    cv2.normalize(hist, hist, 0, shape[0], cv2.NORM_MINMAX)#이게 최대값을 안넘게 알아서 조정해줌. shape[0]이 최대값이 됌.
+    gap = hist_img.shape[1] / hist.shape[0]  # 한 계급 너비 <-이게 그래프 막대의 x 길이가 되기도 함
+
+    print(hist)
+
+    for i, h in enumerate(hist):#i에는 인덱스 h에는 그 인덱스에 맞는 값이 들어감.
+            x = int(round(i*(gap)))
+            w = int(round(gap))
+            cv2.rectangle(hist_img, (x,0,w,int(h)),0,cv2.FILLED)# rectangle(어디에 그릴지,(x시작위치,y시작위치,가로길이(x마지막위치),높이(y마지막 지점),옵션,옵션)
+            #히스토그램 채워넣기
+        #사각형을 그려야하는데 이걸 이전에 배운 함수를 써야 함 + x축 값은 계속 +8만큼 밀리는 것도 염두해야 함.
+    return cv2.flip(hist_img,0)
+    # 영상 상하 뒤집기 후 반환 return   왜 반전하냐? cv에서는 아래로 가는 게 +니깐 첫 그래프가 아래로 그려짐
+    #0 = x축 기준으로 상하반전한다 1 = y축 기준으로 상하반전한다.
+
+image = cv2.imread("images/draw_hist.jpg", cv2.IMREAD_GRAYSCALE)  # 영상 읽기
+if image is None: raise Exception("영상 파일 읽기 오류")
+
+hist = cv2.calcHist([image], [0], None, [32], [0, 256])#0~255까지 32의 구간으로 정한다 0~32 = 1,33 ~ 64 = 2, ~~~~
+hist_img = draw_histo(hist)
+
+cv2.imshow("image", image)
+cv2.imshow("hist_img", hist_img)
+cv2.waitKey(0)
