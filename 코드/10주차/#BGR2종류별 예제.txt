@@ -1,0 +1,23 @@
+#BGR2종류별 예제
+import cv2
+
+BGR_img = cv2.imread("C:/Users/user/Desktop/images/sum_test.jpg",cv2.IMREAD_COLOR)
+
+Gray_img = cv2.cvtColor(BGR_img, cv2.COLOR_BGR2GRAY)
+YCC_img = cv2.cvtColor(BGR_img, cv2.COLOR_BGR2YCrCb)
+YUV_img = cv2.cvtColor(BGR_img, cv2.COLOR_BGR2YUV)
+LAB_img = cv2.cvtColor(BGR_img, cv2.COLOR_BGR2LAB)
+
+YCC_ch = cv2.split(YCC_img)
+YUV_ch = cv2.split(YUV_img)
+LAB_ch = cv2.split(LAB_img)
+
+cv2.imshow("BGRIMG",BGR_img)
+cv2.imshow("GRAY_IMG",Gray_img)
+
+sp1,sp2,sp3 = ['y','Cr','Cb'],['Y','U','V'],['L','A','B']
+for i in range(len(YCC_ch)):
+    cv2.imshow("YCC_img[%d]-%s" %(i,sp1[i]), YCC_ch[i])
+    cv2.imshow("YUV_img[%d]-%s" %(i, sp2[i]), YUV_ch[i])
+    cv2.imshow("LAB_img[%d]-%s" %(i, sp3[i]), LAB_ch[i])
+    cv2.waitKey(0)
